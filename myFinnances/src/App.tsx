@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Login from './pages/login'
 
 interface IFildForm {
   email: string,
@@ -21,10 +22,10 @@ function App() {
   }
 
   console.log(fildsForm);
-  
 
   return (
     <div>
+      <Login/>
       <h1>Iniciando os trabalhos</h1>
       <input type="button" value={count} onClick={() => setCount(count + 1)}/>
       <form action="">
