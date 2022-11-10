@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
-import Login from './pages/login'
+import React, {useState} from 'react';
+import Login from './pages/login';
+import Cadastro from './pages/cadastro';
 
 
 function App() {
   return (
-    <div>
+    <div> 
       <Login/>
+      {/* <Cadastro /> */}
     </div>
   )
 }
