@@ -4,6 +4,7 @@ import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
+import {validEmail, validPassword} from "../utils/regex.js"
 
 
 interface IFildForm {
@@ -13,7 +14,7 @@ interface IFildForm {
 
   const schema = object ({
     email: string().required("Campo obrigatório."),
-    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 3 caracteres").max(10,"Sua senha não pode exceder 16 caracteres"),
+    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 8 caracteres").max(10,"Sua senha não pode exceder 16 caracteres"),
   })
 
 export default function login() {
@@ -24,6 +25,24 @@ export default function login() {
     
 
     const [fildsForm, setFildsForm] = useState<IFildForm>({email: "", password:""});
+
+
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+
+    const validate = () => {
+        if(!validateEmail.test(emailError)){
+            setEmailError(true);
+        } else{
+            setEmailError(false);
+        }
+
+        if(!validatePassword.test(passwordError)){
+            setPasswordError(true);
+        } else{
+            setPasswordError(false);
+        }
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
     const {name, value} = event.target;
@@ -52,12 +71,14 @@ export default function login() {
                 <input type="email" placeholder='Digite seu email' {...register("email")} value={fildsForm.email} onChange={handleChange}/>
                 <span className='error'>{errors?.email?.message}</span>
             </div>
+            {emailError && <p>Email incorreto!</p>}
 
-            <div className="senha">
+            <div className="password">
                 <label htmlFor="">Senha</label>
                 <input type="password" placeholder='Digite sua senha' {...register("password")} value={fildsForm.password} onChange={handleChange}/>
                 <span className='error'>{errors?.password?.message}</span>
             </div>
+            {passwordError && <p>Password incorreto!</p>}
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
 
             <input className='submit' type="submit" value="Entrar"/>
