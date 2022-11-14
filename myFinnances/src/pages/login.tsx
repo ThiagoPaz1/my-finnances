@@ -4,7 +4,7 @@ import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
-import {validEmail, validPassword} from "../utils/regex"
+import {validEmail} from "../utils/regex"
 
 
 interface IFildForm {
@@ -28,7 +28,6 @@ export default function login() {
 
 
     const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);    
 
     const validate = () => {
         if(!validEmail.test(fildsForm.email)){
@@ -36,14 +35,6 @@ export default function login() {
             console.log("Entrei");
         } else{
             setEmailError(false);
-            console.log("Entrei");
-        }
-
-        if(!validPassword.test(fildsForm.password)){
-            setPasswordError(true);
-            console.log("Entrei");
-        } else{
-            setPasswordError(false);
             console.log("Entrei");
         }
     }
@@ -82,7 +73,6 @@ export default function login() {
                 <input type="password" placeholder='Digite sua senha' {...register("password")} value={fildsForm.password} onChange={handleChange}/>
                 <span className='error'>{errors?.password?.message}</span>
             </div>
-            {passwordError && <p>Password incorreto!</p>}
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
 
             <input className='submit' type="submit" value="Entrar" onClick={validate}/>

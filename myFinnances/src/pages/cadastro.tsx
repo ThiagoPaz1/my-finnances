@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import '../css/login.css'
+import {validPassword} from "../utils/regex"
 
 
 interface IFildForm {
