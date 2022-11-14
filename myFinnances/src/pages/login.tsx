@@ -14,7 +14,7 @@ interface IFildForm {
 
   const schema = object ({
     email: string().required("Campo obrigatório."),
-    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 8 caracteres").max(10,"Sua senha não pode exceder 16 caracteres"),
+    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 8 caracteres").max(16,"Sua senha não pode exceder 16 caracteres"),
   })
 
 export default function login() {
@@ -28,19 +28,23 @@ export default function login() {
 
 
     const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);    
 
     const validate = () => {
-        if(!validEmail.test(emailError)){
+        if(!validEmail.test(fildsForm.email)){
             setEmailError(true);
+            console.log("Entrei");
         } else{
             setEmailError(false);
+            console.log("Entrei");
         }
 
-        if(!validPassword.test(passwordError)){
+        if(!validPassword.test(fildsForm.password)){
             setPasswordError(true);
+            console.log("Entrei");
         } else{
             setPasswordError(false);
+            console.log("Entrei");
         }
     }
 
@@ -81,7 +85,7 @@ export default function login() {
             {passwordError && <p>Password incorreto!</p>}
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
 
-            <input className='submit' type="submit" value="Entrar"/>
+            <input className='submit' type="submit" value="Entrar" onClick={validate}/>
         </form>
         <div className="new-account">
             <h2>Ainda não tem uma conta? <a href="#">Criar conta</a></h2>
