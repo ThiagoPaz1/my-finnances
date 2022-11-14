@@ -4,7 +4,7 @@ import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
-import {validEmail, validPassword} from "../utils/regex.js"
+import {validEmail, validPassword} from "../utils/regex"
 
 
 interface IFildForm {
