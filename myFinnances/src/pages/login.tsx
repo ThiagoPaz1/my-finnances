@@ -31,13 +31,13 @@ export default function login() {
     const [passwordError, setPasswordError] = useState(false);
 
     const validate = () => {
-        if(!validateEmail.test(emailError)){
+        if(!validEmail.test(emailError)){
             setEmailError(true);
         } else{
             setEmailError(false);
         }
 
-        if(!validatePassword.test(passwordError)){
+        if(!validPassword.test(passwordError)){
             setPasswordError(true);
         } else{
             setPasswordError(false);
