@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from './pages/Login';
-import Cadastro from './pages/cadastro';
+import Cadastro from './pages/Cadastro';
 
 import './css/global.css'
 import './css/cadastro.css'
