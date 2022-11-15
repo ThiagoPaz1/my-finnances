@@ -4,6 +4,7 @@ import '../css/cadastro.css'
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
+import axios from 'axios'
 import { validName, validPassword, validEmail } from "../utils/regex"
 
 interface IFildForm {
@@ -39,10 +40,23 @@ export default function Cadastro() {
     setFildsForm({ ...fildsForm, [name]: value });
   }
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = async () => {
     if (!nameError && !passwordError && !emailError) {
-      console.log(data);
-      setFildsForm(defaultValuesFieldsForm);
+      const body = {
+        name: fildsForm.name,
+        email: '',
+        password: fildsForm.password
+      }
+
+      try {
+        const request = await axios.post('http://localhost:3000/user', body)
+        const response = await request.data
+        console.log(response)
+        setFildsForm(defaultValuesFieldsForm);
+      } catch (error) {
+        console.log(error)
+      }
+
     }
   }
 
@@ -132,7 +146,7 @@ export default function Cadastro() {
               <span className='error'>{errors?.confirmPassword?.message}</span>
               {passwordError ? <p>As senhas não correspondem</p> : ''}
             </div>
-            
+
             <input className='submit' type="submit" value="Cadastrar" onClick={validateFieldsForm} />
           </form>
         </section>

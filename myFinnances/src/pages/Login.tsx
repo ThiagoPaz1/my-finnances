@@ -8,8 +8,6 @@ import { object, string } from 'yup';
 import { validEmail } from "../utils/regex"
 import { Link } from "react-router-dom";
 
-
-
 interface IFildForm {
   email: string,
   password: string,
