@@ -25,6 +25,7 @@ const schema = object ({
 
 export default function cadastro() {
 
+
     const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({resolver: yupResolver(schema)});
 
     const [fildsForm, setFildsForm] = useState<IFildForm>({name: "", email: "", password:"", confirmPassword:""});
