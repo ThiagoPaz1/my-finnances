@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import '../css/global.css'
 import '../css/login.css'
 import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
-import { validEmail, validPassword } from "../utils/regex"
+import { validEmail } from "../utils/regex"
+import { Link } from "react-router-dom";
+
 
 
 interface IFildForm {
@@ -12,12 +15,12 @@ interface IFildForm {
   password: string,
 }
 
-  const schema = object ({
-    email: string().required("Campo obrigatório."),
-    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 8 caracteres").max(16,"Sua senha não pode exceder 16 caracteres"),
-  })
+const schema = object({
+  email: string().required("Campo obrigatório."),
+  password: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres"),
+})
 
-export default function login() {
+export default function Login() {
 
   const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
@@ -26,9 +29,7 @@ export default function login() {
 
   const [fildsForm, setFildsForm] = useState<IFildForm>({ email: "", password: "" });
 
-
   const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
 
   const validate = () => {
     if (!validEmail.test(fildsForm.email)) {
@@ -36,14 +37,6 @@ export default function login() {
       console.log("Entrei");
     } else {
       setEmailError(false);
-      console.log("Entrei");
-    }
-
-    if (!validPassword.test(fildsForm.password)) {
-      setPasswordError(true);
-      console.log("Entrei");
-    } else {
-      setPasswordError(false);
       console.log("Entrei");
     }
   }
@@ -54,7 +47,6 @@ export default function login() {
   }
 
   const handleSubmit = (data: any) => {
-
     console.log(data);
     setFildsForm({ email: "", password: "" });
   }
@@ -67,7 +59,7 @@ export default function login() {
           <h1>Bem vindo</h1>
         </header>
         {/* <input type="button" value={count} onClick={() => setCount(count + 1)}/> */}
-
+  
         <section>
           <form className='form' onSubmit={onSubmit(handleSubmit)}>
             <div className="email">
@@ -75,33 +67,34 @@ export default function login() {
               <input
                 type="email"
                 placeholder='Digite seu email'
-                value={fildsForm.email}
                 {...register("email")}
+                value={fildsForm.email}
                 onChange={handleChange}
               />
               <span className='error'>{errors?.email?.message}</span>
-            </div>
-
+            </div >
+  
             <div className="password">
               <label htmlFor="">Senha</label>
               <input
                 type="password"
                 placeholder='Digite sua senha'
                 {...register("password")}
-                onChange={handleChange}
                 value={fildsForm.password}
+                onChange={handleChange}
               />
               <span className='error'>{errors?.password?.message}</span>
             </div>
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
-            
+  
             <input className='submit' type="submit" value="Entrar" onClick={validate} />
           </form>
           <div className="new-account">
-            <h2>Ainda não tem uma conta? <a href="#">Criar conta</a></h2>
+            <h2>Não tem uma conta?&nbsp;</h2>
+            <Link to="./cadastro">Cadastre-se</Link>
           </div>
-        </section>
-      </div>
-    </div>
+        </section >
+      </div >
+    </div >
   )
 }
