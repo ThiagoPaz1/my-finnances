@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
+import '../css/global.css'
 import '../css/login.css'
 import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
-import {validEmail, validPassword} from "../utils/regex"
+import {validEmail} from "../utils/regex"
+import { Link } from "react-router-dom";
+
 
 
 interface IFildForm {
@@ -28,7 +31,6 @@ export default function login() {
 
 
     const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);    
 
     const validate = () => {
         if(!validEmail.test(fildsForm.email)){
@@ -38,19 +40,11 @@ export default function login() {
             setEmailError(false);
             console.log("Entrei");
         }
-
-        if(!validPassword.test(fildsForm.password)){
-            setPasswordError(true);
-            console.log("Entrei");
-        } else{
-            setPasswordError(false);
-            console.log("Entrei");
-        }
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
-    const {name, value} = event.target;
-    setFildsForm({...fildsForm, [name]: value});
+        const {name, value} = event.target;
+        setFildsForm({...fildsForm, [name]: value});
     }
 
     const handleSubmit = (data: any) => {
@@ -72,23 +66,35 @@ export default function login() {
         <form className='form' onSubmit={onSubmit(handleSubmit)}>
             <div className="email">
                 <label htmlFor="">Usuário</label>
-                <input type="email" placeholder='Digite seu email' {...register("email")} value={fildsForm.email} onChange={handleChange}/>
+                <input 
+                    type="email" 
+                    placeholder='Digite seu email' 
+                    {...register("email")} 
+                    value={fildsForm.email} 
+                    onChange={handleChange}
+                />
                 <span className='error'>{errors?.email?.message}</span>
             </div>
             {emailError && <p>Email incorreto!</p>}
 
             <div className="password">
                 <label htmlFor="">Senha</label>
-                <input type="password" placeholder='Digite sua senha' {...register("password")} value={fildsForm.password} onChange={handleChange}/>
+                <input 
+                    type="password" 
+                    placeholder='Digite sua senha' 
+                    {...register("password")} 
+                    value={fildsForm.password} 
+                    onChange={handleChange}
+                />
                 <span className='error'>{errors?.password?.message}</span>
             </div>
-            {passwordError && <p>Password incorreto!</p>}
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
 
             <input className='submit' type="submit" value="Entrar" onClick={validate}/>
         </form>
         <div className="new-account">
-            <h2>Ainda não tem uma conta? <a href="#">Criar conta</a></h2>
+            <h2>Não tem uma conta?&nbsp;</h2>
+            <Link to="./cadastro">Cadastre-se</Link>
         </div>
         </section>
         </div>
