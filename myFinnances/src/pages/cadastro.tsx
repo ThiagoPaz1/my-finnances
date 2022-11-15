@@ -79,6 +79,19 @@ export default function cadastro() {
         }
     }
 
+    const validatePassword = () =>{
+        if(fildsForm.password != fildsForm.confirmPassword){
+            alert("As senhas não correspondem");
+        } else{
+            alert("As senhas correspodem")
+        }
+    }
+
+    const handleClick = () => {
+        validate();
+        validatePassword();
+    }
+
     console.log(fildsForm);
     
     return (
@@ -102,7 +115,7 @@ export default function cadastro() {
                                 onChange={handleChange}
                             />
                             {/* <span>{errors?.name?.message}</span> */}
-                            {nameError && <p>Seu nome não pode conter números.</p>}
+                            {nameError && <p>Nome invalido</p>}
                         </div>
 
                         <div className="email">
@@ -141,7 +154,7 @@ export default function cadastro() {
                             <span className='error'>{errors?.confirmPassword?.message}</span>
                         </div>
 
-                        <input className='submit' type="submit" value="Cadastrar" onClick={validate}/>
+                        <input className='submit' type="submit" value="Cadastrar" onClick={handleClick}/>
                     </form>
                 </section>
             </div>

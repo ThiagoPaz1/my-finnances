@@ -81,3 +81,8 @@ section h2{
 
     color: red;
 }
+
+.email, .password{
+    display: flex;
+    flex-direction: column;
+}

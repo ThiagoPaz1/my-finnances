@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
 import {validEmail} from "../utils/regex"
+import { Link } from "react-router-dom";
+
 
 
 interface IFildForm {
@@ -91,7 +93,8 @@ export default function login() {
             <input className='submit' type="submit" value="Entrar" onClick={validate}/>
         </form>
         <div className="new-account">
-            <h2>Ainda não tem uma conta? <a href="#">Criar conta</a></h2>
+            <h2>Não tem uma conta?&nbsp;</h2>
+            <Link to="./cadastro">Cadastre-se</Link>
         </div>
         </section>
         </div>
