@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import '../css/global.css'
 import '../css/login.css'
 import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
@@ -40,8 +41,8 @@ export default function login() {
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
-    const {name, value} = event.target;
-    setFildsForm({...fildsForm, [name]: value});
+        const {name, value} = event.target;
+        setFildsForm({...fildsForm, [name]: value});
     }
 
     const handleSubmit = (data: any) => {
@@ -63,14 +64,26 @@ export default function login() {
         <form className='form' onSubmit={onSubmit(handleSubmit)}>
             <div className="email">
                 <label htmlFor="">Usuário</label>
-                <input type="email" placeholder='Digite seu email' {...register("email")} value={fildsForm.email} onChange={handleChange}/>
+                <input 
+                    type="email" 
+                    placeholder='Digite seu email' 
+                    {...register("email")} 
+                    value={fildsForm.email} 
+                    onChange={handleChange}
+                />
                 <span className='error'>{errors?.email?.message}</span>
             </div>
             {emailError && <p>Email incorreto!</p>}
 
             <div className="password">
                 <label htmlFor="">Senha</label>
-                <input type="password" placeholder='Digite sua senha' {...register("password")} value={fildsForm.password} onChange={handleChange}/>
+                <input 
+                    type="password" 
+                    placeholder='Digite sua senha' 
+                    {...register("password")} 
+                    value={fildsForm.password} 
+                    onChange={handleChange}
+                />
                 <span className='error'>{errors?.password?.message}</span>
             </div>
             <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
