@@ -29,9 +29,7 @@ const defaultValuesFieldsForm: IFildForm = {
 }
 
 export default function Cadastro() {
-  const [nameError, setNameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  const [fieldErro, setFieldErro] = useState(false);
   const [fildsForm, setFildsForm] = useState<IFildForm>(defaultValuesFieldsForm);
   const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
@@ -41,7 +39,7 @@ export default function Cadastro() {
   }
 
   const handleSubmit = async () => {
-    if (!nameError && !passwordError && !emailError) {
+    if (fildsForm.name && fildsForm.email && fildsForm.password) {
       const body = {
         name: fildsForm.name,
         email: '',
@@ -51,7 +49,7 @@ export default function Cadastro() {
       try {
         const request = await axios.post('http://localhost:3000/user', body)
         const response = await request.data
-        console.log(response)
+
         setFildsForm(defaultValuesFieldsForm);
       } catch (error) {
         console.log(error)
@@ -62,19 +60,19 @@ export default function Cadastro() {
 
   const validateFieldsForm = () => {
     if (!validName.test(fildsForm.name)) {
-      setNameError(true);
+      setFieldErro(true);
     }
 
     if (!validPassword.test(fildsForm.password)) {
-      setPasswordError(true);
+      setFieldErro(true);
     }
 
     if (!validEmail.test(fildsForm.email)) {
-      setEmailError(true);
+      setFieldErro(true);
     }
 
     if (fildsForm.password !== fildsForm.confirmPassword) {
-      setPasswordError(true)
+      setFieldErro(true)
     }
   }
 
@@ -99,8 +97,7 @@ export default function Cadastro() {
                 value={fildsForm.name}
                 onChange={handleChange}
               />
-              {/* <span>{errors?.name?.message}</span> */}
-              {nameError && <p>Nome invalido</p>}
+              {(!fildsForm.name && fieldErro) && <p>Nome invalido</p>}
             </div>
 
             <div className="email">
