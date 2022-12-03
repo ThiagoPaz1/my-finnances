@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Login from './pages/login';
-import Cadastro from './pages/cadastro';
+import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 
 import './css/global.css'
 import './css/cadastro.css'
@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Login />}/>
-          <Route path="/cadastro" element={<Cadastro />}/>
+          <Route path="/Cadastro" element={<Cadastro />}/>
         </Routes>
       </Router>
     </div>
