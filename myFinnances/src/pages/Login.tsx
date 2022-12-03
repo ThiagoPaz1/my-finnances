@@ -1,100 +1,98 @@
-import React, { useState } from 'react';
-import logo from '../assets/financa.png';
-import { useForm } from "react-hook-form";
+import React, {useState} from 'react';
 import '../css/global.css'
 import '../css/login.css'
+import logo from '../assets/financa.png';
+import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
-import { validEmail } from "../utils/regex"
+import {object, string} from 'yup';
+import {validEmail} from "../utils/regex"
 import { Link } from "react-router-dom";
-import {countDown} from '../utils/Modal';
+import { CustomInput } from '../components/form';
+import { PrimaryButton } from '../components/button';
+
 
 
 interface IFildForm {
-  email: string,
-  password: string,
-}
+    email: string,
+    password: string,
+  }
 
-const schema = object({
-  email: string().required("Campo obrigatório."),
-  password: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres"),
-})
+  const schema = object ({
+    email: string().required("Campo obrigatório."),
+    password: string().required("Campo obrigatório.").min(8,"Você precisa inserir pelo menos 8 caracteres").max(16,"Sua senha não pode exceder 16 caracteres"),
+  })
 
-export default function Login() {
+export default function login() {
 
-  const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+    const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({resolver: yupResolver(schema)});
 
-  // console.log(errors);
+    // console.log(errors);
+    
+
+    const [fildsForm, setFildsForm] = useState<IFildForm>({email: "", password:""});
 
 
-  const [fildsForm, setFildsForm] = useState<IFildForm>({ email: "", password: "" });
+    const [emailError, setEmailError] = useState(false);
 
-  const [emailError, setEmailError] = useState(false);
-
-  const validate = () => {
-    if (!validEmail.test(fildsForm.email)) {
-      setEmailError(true);
-      console.log("Entrei");
-    } else {
-      setEmailError(false);
-      console.log("Entrei");
+    const validate = () => {
+        if(!validEmail.test(fildsForm.email)){
+            setEmailError(true);
+            console.log("Entrei");
+        } else{
+            setEmailError(false);
+            console.log("Entrei");
+        }
     }
-  }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFildsForm({ ...fildsForm, [name]: value });
-  }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setFildsForm({...fildsForm, [name]: value});
+    }
 
-  const handleSubmit = (data: any) => {
-    console.log(data);
-    setFildsForm({ email: "", password: "" });
-  }
+    const handleSubmit = (data: any) => {
+        console.log(data);
 
-  return (
+        // Enviar dados para o backend
+        setFildsForm({email: "", password: ""});
+    }
+
+    return(
     <div>
-      <div className="container">
-        <header>
-          <img className='logo' src={logo} alt="logo-finanças" />
-          <h1>Bem vindo</h1>
-        </header>
-        {/* <input type="button" value={count} onClick={() => setCount(count + 1)}/> */}
-  
+        <div className="container">
+            <header>
+                <img className='logo' src={logo} alt="logo-finanças"/>
+                <h1>Bem vindo</h1>
+            </header>
         <section>
-          <form className='form' onSubmit={onSubmit(handleSubmit)}>
-            <div className="email">
-              <label htmlFor="">Usuário</label>
-              <input
-                type="email"
-                placeholder='Digite seu email'
-                {...register("email")}
-                value={fildsForm.email}
-                onChange={handleChange}
-              />
-              <span className='error'>{errors?.email?.message}</span>
-            </div >
-  
-            <div className="password">
-              <label htmlFor="">Senha</label>
-              <input
-                type="password"
-                placeholder='Digite sua senha'
-                {...register("password")}
-                value={fildsForm.password}
-                onChange={handleChange}
-              />
-              <span className='error'>{errors?.password?.message}</span>
+            <div className="form__container">
+                <CustomInput
+                    title="Usuário"
+                    handleChange={handleChange}
+                    register={() => register("email",{required: true})}
+                    placeholder="Digite seu email"
+                    value={fildsForm.email}
+                    errorMessage={errors?.email?.message}
+                />
+                {emailError && <p>Email incorreto!</p>}
+                <CustomInput
+                    title="Senha"
+                    handleChange={handleChange}
+                    placeholder="Digite sua senha"
+                    register={() => register("password")}
+                    value={fildsForm.password}
+                    type="password"
+                    errorMessage={errors?.password?.message}
+                />
+                <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
             </div>
-            <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
-  
-            <input className='submit' type="submit" value="Entrar" onClick={validate} />
-          </form>
-          <div className="new-account">
+            <PrimaryButton title="Entrar" handleSubmit={handleSubmit} />
+            {/* <input className='submit' type="submit" value="Entrar" onClick={validate}/> */}
+        <div className="new-account">
             <h2>Não tem uma conta?&nbsp;</h2>
-            <Link to="./Cadastro" onClick={countDown}>Cadastre-se</Link>
-          </div>
-        </section >
-      </div >
-    </div >
-  )
+            <Link to="./cadastro">Cadastre-se</Link>
+        </div>
+        </section>
+        </div>
+    </div>
+    )
 }
