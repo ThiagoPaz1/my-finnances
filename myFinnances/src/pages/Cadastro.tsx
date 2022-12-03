@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import '../css/global.css'
-import '../css/cadastro.css'
+import '../css/global.css';
+import '../css/cadastro.css';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
-import axios from 'axios'
-import { validName, validPassword, validEmail } from "../utils/regex"
+import axios from 'axios';
+import { validName, validPassword, validEmail } from "../utils/regex";
+import {countDown} from '../utils/Modal';
 
 interface IFildForm {
   name: string,
@@ -14,12 +15,12 @@ interface IFildForm {
   confirmPassword: string,
 }
 
-const schema = object({
-  name: string().required("Campo obrigatório"),
-  email: string().required("Campo obrigatório."),
-  password: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres"),
-  confirmPassword: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres")
-})
+// const schema = object({
+//   name: string().required("Campo obrigatório"),
+//   email: string().required("Campo obrigatório."),
+//   password: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres"),
+//   confirmPassword: string().required("Campo obrigatório.").min(8, "Você precisa inserir pelo menos 8 caracteres").max(16, "Sua senha não pode exceder 16 caracteres")
+// })
 
 const defaultValuesFieldsForm: IFildForm = {
   name: '',
@@ -31,11 +32,15 @@ const defaultValuesFieldsForm: IFildForm = {
 export default function Cadastro() {
   const [fieldErro, setFieldErro] = useState(false);
   const [fildsForm, setFildsForm] = useState<IFildForm>(defaultValuesFieldsForm);
-  const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  // const { register, handleSubmit: onSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const [emptyValues, setEmptyValues] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFildsForm({ ...fildsForm, [name]: value });
+
+    let emptyValues = Object.values(fildsForm).some(obj => obj == "");
+    setEmptyValues(emptyValues);
   }
 
   const handleSubmit = async () => {
@@ -58,23 +63,24 @@ export default function Cadastro() {
     }
   }
 
-  const validateFieldsForm = () => {
-    if (!validName.test(fildsForm.name)) {
-      setFieldErro(true);
-    }
+  // const validateFieldsForm = () => {
+  //   if (!validName.test(fildsForm.name)) {
+  //     setFieldErro(true);
+  //   }
 
-    if (!validPassword.test(fildsForm.password)) {
-      setFieldErro(true);
-    }
+  //   if (!validPassword.test(fildsForm.password)) {
+  //     setFieldErro(true);
+  //   }
 
-    if (!validEmail.test(fildsForm.email)) {
-      setFieldErro(true);
-    }
+  //   if (!validEmail.test(fildsForm.email)) {
+  //     setFieldErro(true);
+  //   }
 
-    if (fildsForm.password !== fildsForm.confirmPassword) {
-      setFieldErro(true)
-    }
-  }
+  //   if (fildsForm.password !== fildsForm.confirmPassword) {
+  //     setFieldErro(true)
+  //   }
+    
+  // }
 
   console.log(fildsForm);
 
@@ -97,7 +103,10 @@ export default function Cadastro() {
                 value={fildsForm.name}
                 onChange={handleChange}
               />
-              {(!fildsForm.name && fieldErro) && <p>Nome invalido</p>}
+              {/* {(!fildsForm.name && fieldErro) && <p>Nome invalido</p>}
+               */}
+              { emptyValues && <span>Obrigátorio preenchimento de campo</span>}
+
             </div>
 
             <div className="email">
@@ -109,7 +118,7 @@ export default function Cadastro() {
                 value={fildsForm.email}
                 onChange={handleChange}
               />
-              <span className='error'>{errors?.email?.message}</span>
+              {/* <span className='error'>{errors?.email?.message}</span> */}
             </div>
 
             <div className="senha">
@@ -121,14 +130,14 @@ export default function Cadastro() {
                 value={fildsForm.password}
                 onChange={handleChange}
               />
-              <span className='error'>{errors?.password?.message}</span>
-              {
+              {/* <span className='error'>{errors?.password?.message}</span> */}
+              {/* {
                 passwordError ?
                   <p>
                     A senha precisa ter letra maiscula, miniscula, um caracter especial, e número e no minimo 8 digitos
                   </p>
                   : ''
-              }
+              } */}
             </div>
 
             <div className="confirmPassword">
@@ -140,8 +149,8 @@ export default function Cadastro() {
                 value={fildsForm.confirmPassword}
                 onChange={handleChange}
               />
-              <span className='error'>{errors?.confirmPassword?.message}</span>
-              {passwordError ? <p>As senhas não correspondem</p> : ''}
+              {/* <span className='error'>{errors?.confirmPassword?.message}</span>
+              {passwordError ? <p>As senhas não correspondem</p> : ''} */}
             </div>
 
             <input className='submit' type="submit" value="Cadastrar" onClick={validateFieldsForm} />

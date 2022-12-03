@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import '../css/global.css'
-import '../css/login.css'
 import logo from '../assets/financa.png';
 import { useForm } from "react-hook-form";
+import '../css/global.css'
+import '../css/login.css'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 import { validEmail } from "../utils/regex"
 import { Link } from "react-router-dom";
+import {countDown} from '../utils/Modal';
+
 
 interface IFildForm {
   email: string,
@@ -89,7 +91,7 @@ export default function Login() {
           </form>
           <div className="new-account">
             <h2>Não tem uma conta?&nbsp;</h2>
-            <Link to="./cadastro">Cadastre-se</Link>
+            <Link to="./Cadastro" onClick={countDown}>Cadastre-se</Link>
           </div>
         </section >
       </div >
