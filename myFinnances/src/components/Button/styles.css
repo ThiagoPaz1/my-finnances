@@ -1,0 +1,22 @@
+.primary-button__container {
+    height: 49px;
+    width: 300px;
+
+    margin: 13px;
+
+    background-color: #3bf199;
+    border-radius: 12.25px;
+}
+
+.primary-button__container button {
+    height: 100%;
+    width: 100%;
+
+    background-color: transparent;
+
+    border: none;
+
+    font-weight: bold;
+    color: #ffff;
+}
+

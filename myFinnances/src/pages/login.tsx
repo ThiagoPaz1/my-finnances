@@ -7,6 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {object, string} from 'yup';
 import {validEmail} from "../utils/regex"
 import { Link } from "react-router-dom";
+import { CustomInput } from '../components/form';
+import { PrimaryButton } from '../components/Button';
 
 
 
@@ -42,14 +44,15 @@ export default function login() {
         }
     }
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setFildsForm({...fildsForm, [name]: value});
     }
 
     const handleSubmit = (data: any) => {
-
         console.log(data);
+
+        // Enviar dados para o backend
         setFildsForm({email: "", password: ""});
     }
 
@@ -60,38 +63,30 @@ export default function login() {
                 <img className='logo' src={logo} alt="logo-finanças"/>
                 <h1>Bem vindo</h1>
             </header>
-        {/* <input type="button" value={count} onClick={() => setCount(count + 1)}/> */}
-
         <section>
-        <form className='form' onSubmit={onSubmit(handleSubmit)}>
-            <div className="email">
-                <label htmlFor="">Usuário</label>
-                <input 
-                    type="email" 
-                    placeholder='Digite seu email' 
-                    {...register("email")} 
-                    value={fildsForm.email} 
-                    onChange={handleChange}
+            <div className="form__container">
+                <CustomInput
+                    title="Usuário"
+                    handleChange={handleChange}
+                    register={() => register("email")}
+                    placeholder="Digite seu email"
+                    value={fildsForm.email}
+                    errorMessage={errors?.email?.message}
                 />
-                <span className='error'>{errors?.email?.message}</span>
-            </div>
-            {emailError && <p>Email incorreto!</p>}
-
-            <div className="password">
-                <label htmlFor="">Senha</label>
-                <input 
-                    type="password" 
-                    placeholder='Digite sua senha' 
-                    {...register("password")} 
-                    value={fildsForm.password} 
-                    onChange={handleChange}
+                {emailError && <p>Email incorreto!</p>}
+                <CustomInput
+                    title="Senha"
+                    handleChange={handleChange}
+                    placeholder="Digite sua senha"
+                    register={() => register("password")}
+                    value={fildsForm.password}
+                    type="password"
+                    errorMessage={errors?.password?.message}
                 />
-                <span className='error'>{errors?.password?.message}</span>
+                <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
             </div>
-            <a className='esqueceu-senha' href="#">Esqueceu a senha?</a>
-
-            <input className='submit' type="submit" value="Entrar" onClick={validate}/>
-        </form>
+            <PrimaryButton title="Entrar" handleSubmit={handleSubmit} />
+            {/* <input className='submit' type="submit" value="Entrar" onClick={validate}/> */}
         <div className="new-account">
             <h2>Não tem uma conta?&nbsp;</h2>
             <Link to="./cadastro">Cadastre-se</Link>
