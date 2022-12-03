@@ -1,0 +1,15 @@
+label {
+    font-size: 16px;
+    padding-left: 12px;
+}
+
+input {
+    width: 520px;
+    height: 49px;
+    margin: 12px;
+
+    padding-left: 2%;
+
+    border-radius: 13px;
+    border: 1px solid #000;
+}
