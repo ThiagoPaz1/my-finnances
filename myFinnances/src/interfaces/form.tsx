@@ -5,5 +5,5 @@ export interface CustomInputTypes {
     handleChange: any,
     value?: string,
     errorMessage?: any,
-    register: any
+    register: any,
 }
