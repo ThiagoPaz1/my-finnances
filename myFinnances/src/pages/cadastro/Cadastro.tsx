@@ -83,7 +83,7 @@ export default function Cadastro() {
     return <Navigate to="/" />
   }
 
-  const maut = () => {
+  const activeModal = () => {
     setToLogin(true)
   }  
 
@@ -91,7 +91,7 @@ export default function Cadastro() {
     console.log(data);
     // alert(JSON.stringify(data))
 
-    modalSuccess({handleSubmit: maut});
+    modalSuccess({handleSubmit: activeModal});
   }
 
   return (
