@@ -6,13 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 import validator from 'validator'
 import axios from 'axios';
+import { Navigate } from "react-router-dom";
 import { validName, validPassword, validEmail } from "../../utils/regex";
 import {countDown} from '../../utils/Modal';
 import { FildForm } from '../../interfaces/filds';
 import { CustomInput } from '../../components/form';
 import { PrimaryButton } from '../../components/button';
-
-
+import { modalSuccess } from '../../components/modal/modal'
 
 // interface IFildForm {
 //   name: string,
@@ -75,17 +75,24 @@ export default function Cadastro() {
 
   //   }
   // }
-  
+
+  const watchPassword = watch('password');
+  const [goToLogin, setToLogin] = useState(false);
+
+  if(goToLogin){
+    return <Navigate to="/" />
+  }
+
+  const maut = () => {
+    setToLogin(true)
+  }  
 
   const onSubmit = (data:any) => {
     console.log(data);
-    alert(JSON.stringify(data))
+    // alert(JSON.stringify(data))
+
+    modalSuccess({handleSubmit: maut});
   }
-
-  const watchPassword = watch('password');
-
-  console.log({watchPassword});
-  
 
   return (
     <div>
