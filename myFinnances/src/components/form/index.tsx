@@ -9,7 +9,7 @@ export const CustomInput = ({
     placeholder,
     value,
     handleChange,
-    errorMessage
+    errorMessage,
 }: CustomInputTypes) => {
     return <div className="input__container">
         <label>{title}</label>
