@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 
 
-export function modalSuccess({handleSubmit}) {
+export function modalSuccess({handleSubmit}: any) {
   let secondsToGo = 5;
 
   const modal = Modal.success({

@@ -30,13 +30,17 @@ header h1{
     justify-content: start;
 }
 
-/* .error{
-    font-size: 15px;
-
-    display: flex;
-    flex-direction: column;
-    
-    padding-left: 12px;
-
-    color: red;
-} */
+.bar-container {
+    background: white;
+    border: 1px solid #999;
+    width: 100%;
+    height: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+.bar {
+    background: #3bf199;
+    width: 100px;
+    height: 100%;
+}

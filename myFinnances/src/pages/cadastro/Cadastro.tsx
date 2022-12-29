@@ -13,6 +13,7 @@ import { FildForm } from '../../interfaces/filds';
 import { CustomInput } from '../../components/form';
 import { PrimaryButton } from '../../components/button';
 import { modalSuccess } from '../../components/modal/modal'
+import { BarProgress } from '../../components/bar_progress'
 
 // interface IFildForm {
 //   name: string,
@@ -85,7 +86,7 @@ export default function Cadastro() {
 
   const activeModal = () => {
     setToLogin(true)
-  }  
+  }
 
   const onSubmit = (data:any) => {
     console.log(data);
@@ -93,6 +94,32 @@ export default function Cadastro() {
 
     modalSuccess({handleSubmit: activeModal});
   }
+
+  const calculateProgress = () => {
+    let value = 0;
+    let add = 25;
+
+
+    if(fildsForm.name){
+      value += add;
+    }
+    if(fildsForm.email){
+      value += add;
+    }
+    if(fildsForm.password){
+      value += add;
+    }
+    if(fildsForm.confirmPassword){
+      value += add;
+    }
+
+    console.log(value);
+
+    return value;
+    
+};
+
+calculateProgress();
 
   return (
     <div>
@@ -102,98 +129,106 @@ export default function Cadastro() {
         </header>
 
         <section>
-          {/* <form action="" className='form' onSubmit={onSubmit(handleSubmit)}> */}
-            <div className="form__container">
-              <CustomInput 
-                title="Nome"
-                type="text"
+          {/* <BarProgress /> */}
+
+          <div className="bar-container">
+            <div 
+              className="bar" 
+              style={{ width: `${calculateProgress()}%` }}
+            ></div>
+          </div>
+
+          <div className="form__container">
+            <CustomInput 
+              title="Nome"
+              type="text"
+              handleChange={handleChange}
+              placeholder="Digite seu nome"
+              value={fildsForm.name}
+              register={() => register("name", {required: true})}
+            />
+            {errors?.name?.type === "required" && (
+              <p className="error-message">Nome obrigatório.</p>
+            )}
+
+            <CustomInput 
+              title="Email"
+              type="email"
+              handleChange={handleChange}
+              placeholder="Digite seu email"
+              value={fildsForm.email}
+              register={() => register("email", {
+                required: true,
+                validate: (value) => validator.isEmail(value),
+              })}
+            />
+
+            {errors?.email?.type === "required" && (
+              <p className="error-message">E-mail obrigatório.</p>
+            )}
+
+            {errors?.email?.type === "validate" && (
+              <p className="error-message">E-mail inválido.</p>
+            )}
+
+            <CustomInput 
+              title="Senha"
+              type="password"
+              handleChange={handleChange}
+              placeholder="Digite sua senha"
+              value={fildsForm.password}
+              register={() => register("password", {
+                required: true,
+                minLength: 8,
+              })}
+            />
+
+            {errors?.password?.type === "required" && (
+              <p className="error-message">Senha obrigatória.</p>
+            )}
+            {errors?.password?.type === "minLength" && (
+              <p className="error-message">A senha precisa ter pelomenos 7 caracteres.</p>
+            )}
+
+            <CustomInput 
+              title="Confirmação de senha"
+              type="password"
+              handleChange={handleChange}
+              placeholder="Confirmação de senha"
+              value={fildsForm.confirmPassword}
+              register={() => register("confirmPassword", { 
+                required: true, 
+                minLength: 8,
+                validate: (value) => value === watchPassword,
+              })}
+            />
+            {errors?.password?.type === "required" && (
+              <p className="error-message">Senha obrigatória.</p>
+            )}
+            {errors?.confirmPassword?.type === "minLength" && (
+              <p className="error-message">A senha precisa ter pelomenos 7 caracteres.</p>
+            )}
+
+            {errors?.confirmPassword?.type === "validate" && (
+              <p className="error-message">As senhas não correspondem.</p>
+            )}
+            {/* <div className="checkbox-group">
+              <CustomInput
+                title="Eu concordo com os termos de privacidade."
+                type="checkbox"
                 handleChange={handleChange}
-                placeholder="Digite seu nome"
-                value={fildsForm.name}
-                register={() => register("name", {required: true})}
+                register={() => register("privacy")}
+                value={fildsForm.privacy}
               />
-              {errors?.name?.type === "required" && (
-                <p className="error-message">Nome obrigatório.</p>
-              )}
+            </div> */}
 
-              <CustomInput 
-                title="Email"
-                type="email"
-                handleChange={handleChange}
-                placeholder="Digite seu email"
-                value={fildsForm.email}
-                register={() => register("email", {
-                  required: true,
-                  validate: (value) => validator.isEmail(value),
-                })}
-              />
+            <PrimaryButton 
+              title= "Cadastrar"
+              handleSubmit={() => handleSubmit(onSubmit)()}
+            />
 
-              {errors?.email?.type === "required" && (
-                <p className="error-message">E-mail obrigatório.</p>
-              )}
-
-              {errors?.email?.type === "validate" && (
-                <p className="error-message">E-mail inválido.</p>
-              )}
-
-              <CustomInput 
-                title="Senha"
-                type="password"
-                handleChange={handleChange}
-                placeholder="Digite sua senha"
-                value={fildsForm.password}
-                register={() => register("password", {
-                  required: true,
-                  minLength: 8,
-                })}
-              />
-
-              {errors?.password?.type === "required" && (
-                <p className="error-message">Senha obrigatória.</p>
-              )}
-              {errors?.password?.type === "minLength" && (
-                <p className="error-message">A senha precisa ter pelomenos 7 caracteres.</p>
-              )}
-
-              <CustomInput 
-                title="Confirmação de senha"
-                type="password"
-                handleChange={handleChange}
-                placeholder="Confirmação de senha"
-                value={fildsForm.confirmPassword}
-                register={() => register("confirmPassword", { 
-                  required: true, 
-                  minLength: 8,
-                  validate: (value) => value === watchPassword,
-                })}
-              />
-              {errors?.password?.type === "required" && (
-                <p className="error-message">Senha obrigatória.</p>
-              )}
-              {errors?.confirmPassword?.type === "minLength" && (
-                <p className="error-message">A senha precisa ter pelomenos 7 caracteres.</p>
-              )}
-
-              {errors?.confirmPassword?.type === "validate" && (
-                <p className="error-message">As senhas não correspondem.</p>
-              )}
-              {/* <div className="checkbox-group">
-                <CustomInput
-                  title="Eu concordo com os termos de privacidade."
-                  type="checkbox"
-                  handleChange={handleChange}
-                  register={() => register("privacy")}
-                  value={fildsForm.privacy}
-                />
-              </div> */}
-
-              <PrimaryButton 
-                title= "Cadastrar"
-                handleSubmit={() => handleSubmit(onSubmit)()}
-              />
-
-              {/* <button onClick={()=> handleSubmit(onSubmit)()}>Cadastrar</button> */}
-            </div>
+            {/* <button onClick={()=> handleSubmit(onSubmit)()}>Cadastrar</button> */}
+          </div>
         </section>
       </div>
     </div>
